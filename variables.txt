@@ -1,0 +1,15 @@
+Nominal:
+    gender: Male/Female (0/1)
+    travelling: No/Yes (0/1)
+    incomesource: Work/Family/Loans (0/1/2)
+
+Ordinal:
+    education: Bachelors/Masters/PhD (0/1/2)
+    sleeps: "5-7"/">7" (0/1)
+    socialize: "<10"/"10-20"/"20-30"/"30-40"/">40" (0/1/2/3/4)
+    news: nothing/little/OK/alot (0/1/2/3)
+
+Quantitative:
+    spends
+    saves
+    stress

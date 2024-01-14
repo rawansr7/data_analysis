@@ -1,0 +1,23 @@
+What is your gender? (male, female)
+What is your education level? (bachelor, masters, Phd)
+Are you willing to travel abroad? (yes, no)
+What is your main source of income? (work, family, loans)
+How much money do you spend monthly? (cont)
+How much do you earn from working? Input zero if you don't work (cont)
+How much (in hours) do you sleep per day? (<5, 5 to 7, >7)
+How much time (in hours) do you spend socializing per week (cont)
+How much time (in hours) do you spend watching the Lebanese news per day? (cont)
+How often have you been upset because of something that happened unexpectedly?
+How often have you felt that you were unable to control important things in your life?
+How often you felt nervous and stressed?
+-How often have you delt successfully with irritating life hassles?
+-How often have you felt that you were effectively coping with important changes that were occuring in your life?
+-How often have you felt confidence about your ability to handle your personal problems?
+-How often have you felt that things were going your way?
+How often have you found that you could not cope with all the things that you had to do?
+-How often have you been able to control irritations in your life?
+-How often have you felt that you were on top of things?
+How often have you been angered because of things that happened that were outside of your control?
+How often have you found yourself thinking about things that you have to accomplish?
+-How often have you been able to control the way you spend your time?
+How often have you felt difficulties were piling up so high that you could not overcome them?
