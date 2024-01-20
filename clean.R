@@ -162,14 +162,4 @@ data <- data[which(
     scale(data$stress) > -3.29 & scale(data$stress) < 3.29
 ), ]
 
-# reliability of stress questions
-stress_questions <- data[names(data) %in% c(positive_questions, negative_questions)]
-
-alpha(stress_questions)
-
-# remove stress questions
-data <- data.frame(data[!(names(data) %in% c(negative_questions, positive_questions))])
-
-factanal(data, factors = 1)
-
-write.csv(data, "cleaned.csv", row.names = FALSE)
+write.csv(data, "all_data.csv", row.names = FALSE)
