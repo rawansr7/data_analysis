@@ -11,11 +11,19 @@ all_data_with_score <- all_data
 all_data_with_score$stress <- rowSums(all_data[, positive_questions]) + 7 * 4 - rowSums(all_data[, negative_questions])
 
 # remove outliers
-data_no_outliers <- all_data_with_score[which(
+outliers_indices <- which(
+    scale(all_data_with_score$saves) < -3.29 | scale(all_data_with_score$saves) > 3.29 |
+    scale(all_data_with_score$spends) < -3.29 | scale(all_data_with_score$spends) > 3.29 |
+    scale(all_data_with_score$stress) < -3.29 | scale(all_data_with_score$stress) > 3.29
+)
+all_data_with_score[outliers_indices, ]
+
+no_outliers_indices <- which(
     scale(all_data_with_score$saves) > -3.29 & scale(all_data_with_score$saves) < 3.29 &
-        scale(all_data_with_score$spends) > -3.29 & scale(all_data_with_score$spends) < 3.29 &
-        scale(all_data_with_score$stress) > -3.29 & scale(all_data_with_score$stress) < 3.29
-), ]
+    scale(all_data_with_score$spends) > -3.29 & scale(all_data_with_score$spends) < 3.29 &
+    scale(all_data_with_score$stress) > -3.29 & scale(all_data_with_score$stress) < 3.29
+)
+data_no_outliers <- all_data_with_score[no_outliers_indices, ]
 
 
 # alpha cronbach reliability of stress questions.
