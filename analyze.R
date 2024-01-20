@@ -18,7 +18,7 @@ data <- data.frame(all_data[!(names(all_data) %in% stress_questions)])
 # (with merging the stress questions to a stress score).
 # The p-value of the null-hypothesis test that 1 factor is enough
 # is 0.211 > 0.05, which means there is 1 factor affecting the data.
-factanal(data, factors = 1)
+factanal(data, factors = 5)
 
 # descriptive statistics.
 # Some observations:
@@ -40,7 +40,7 @@ shapiro.test(data$saves)
 
 # Using one-sample T test to test if the mean stress score is 28 ((max+min)/2)
 # used T test since the stress data is normal, comparing mean of sample to
-# the population mean (hypothesizing that the population stress is average)
+# the population mean (h0: hypothesizing that the population stress is average)
 # The result is p-value > 0.05, so the sample mean is not significantly different from 28.
 t.test(data$stress, mu = 28)
 
@@ -63,30 +63,30 @@ t.test(subset(data, gender == 0)$stress, subset(data, gender == 1)$stress)
 # used this test since the stress data is normal, comparing the mean of four samples (more than two)
 # (hypothesizing that the stress is same across the four samples)
 # The result is p-value > 0.05, so the watching the news doesn't seem to cause stress
-aov(stress ~ news, data = data)
+summary(aov(stress ~ news, data = data))
 
 # Using ANOVA test to test if the mean stress is the same across the five levels of socializing
 # used this test since the stress data is normal, comparing the mean of five samples (more than two)
 # (hypothesizing that the stress is same across the five samples)
 # The result is p-value > 0.05, so socializing amount doesn't seem to affect stress levels
-aov(stress ~ socialize, data = data)
+summary(aov(stress ~ socialize, data = data))
 
 # Using ANOVA test to test if the mean stress is the same across students who study bachelors, masters, and PhD.
 # used this test since the stress data is normal, comparing the mean of three samples (more than two)
 # (hypothesizing that the stress is same across the three samples)
 # The result is p-value > 0.05, so stress doesn't seem to be related to education level
-aov(stress ~ education, data = data)
+summary(aov(stress ~ education, data = data))
 
 
 # Using Pearson's correlation coefficient to test if the stress is correlated with how much a student spends monthly.
 # used this test since the data is continuous and assumed to be normal
 # The correlation coefficient is between -0.3 and 0.3 (negligible), so stress doesn't seem to be correlated to the amount of spending
-cor(data$spends, data$stress)
+cor.test(data$spends, data$stress, method = "pearson")
 
 # Using Pearson's correlation coefficient to test if the stress is correlated with how much a student saves monthly.
 # used this test since the data is continuous and assumed to be normal
 # The correlation coefficient is between -0.3 and 0.3 (negligible), so stress doesn't seem to be correlated to the amount of saving
-cor(data$saves, data$stress)
+cor.test(data$saves, data$stress, method = "pearson")
 
 # Using Chi Square test to test if the need to travel is corelated to how much the student is watching news.
 # used this test since both variables are ordinal and not continuous.
