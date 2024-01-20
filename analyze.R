@@ -2,17 +2,31 @@ library("psych")
 
 all_data <- read.csv("all_data.csv")
 
-stress_questions <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "N1", "N2", "N3", "N4", "N5", "N6", "N7")
+# calculate stress scores
+positive_questions <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7")
+negative_questions <- c("N1", "N2", "N3", "N4", "N5", "N6", "N7")
+stress_questions <- c(positive_questions, negative_questions)
+
+all_data_with_score <- all_data
+all_data_with_score$stress <- rowSums(all_data[, positive_questions]) + 7 * 4 - rowSums(all_data[, negative_questions])
+
+# remove outliers
+data_no_outliers <- all_data_with_score[which(
+    scale(all_data_with_score$saves) > -3.29 & scale(all_data_with_score$saves) < 3.29 &
+        scale(all_data_with_score$spends) > -3.29 & scale(all_data_with_score$spends) < 3.29 &
+        scale(all_data_with_score$stress) > -3.29 & scale(all_data_with_score$stress) < 3.29
+), ]
+
 
 # alpha cronbach reliability of stress questions.
 # The reliability of stress questions only is tested,
 # since these 14 questions have the same scale.
 # Alpha is 0.77.
-stress_data <- all_data[names(all_data) %in% stress_questions]
+stress_data <- data_no_outliers[names(data_no_outliers) %in% stress_questions]
 alpha(stress_data, check.keys = TRUE)
 
 # remove stress questions from the data
-data <- data.frame(all_data[!(names(all_data) %in% stress_questions)])
+data <- data.frame(data_no_outliers[!(names(data_no_outliers) %in% stress_questions)])
 
 # factor analysis on all the data without the stress questions
 # (with merging the stress questions to a stress score).

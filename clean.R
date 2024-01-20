@@ -101,15 +101,6 @@ dollars_processing <- function(value) {
 data$spends <- as.numeric(lapply(data$spends, dollars_processing))
 data$saves <- as.numeric(lapply(data$saves, dollars_processing))
 
-
-# calculate stress scores
-positive_questions <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7")
-negative_questions <- c("N1", "N2", "N3", "N4", "N5", "N6", "N7")
-
-data$stress <- rowSums(data[, positive_questions]) + 7 * 4 - rowSums(data[, negative_questions])
-
-
-
 # encode ordinal and nominal variables
 gender_encoding <- c("Male" = 0, "Female" = 1)
 education_encoding <- c("Bachelors" = 0, "Masters" = 1, "PhD" = 2)
@@ -155,11 +146,5 @@ if (any(is.na(data))) {
   stop("data contains NA.")
 }
 
-# remove outliers
-data <- data[which(
-  scale(data$saves) > -3.29 & scale(data$saves) < 3.29 &
-    scale(data$spends) > -3.29 & scale(data$spends) < 3.29 &
-    scale(data$stress) > -3.29 & scale(data$stress) < 3.29
-), ]
 
 write.csv(data, "all_data.csv", row.names = FALSE)
