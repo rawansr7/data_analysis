@@ -1,6 +1,6 @@
 library("psych")
 
-all_data <- read.csv("all_data.csv")
+
 
 # calculate stress scores
 positive_questions <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7")
@@ -131,3 +131,66 @@ pie(freq, labels = paste(c("Bachelor", "Master", "PhD"), "\n", sprintf("%.1f%%",
 
 # Histogram of the total money income (money spending + money saving)
 hist(data$spends + data$saves, xlab = "Monthly Saving + Spending (USD)", main = "Monthly Saving + Spending")
+
+#Logistic regression
+# : Planning to travel vs. stress exposure
+travel_model <- glm( travelling ~ stress , data = data, family = binomial)
+
+summary(travel_model)
+
+
+# Fill predicted values using regression model
+predicted <- predict(
+  travel_model, data[names(data) == "stress"],
+  type = "response"
+)
+predicted_rounded <- ifelse(predicted < 0.5, 0, 1)
+correctly_predicted <- data$travelling == predicted_rounded
+
+plot(data$stress, data$travelling)
+points(data$stress[correctly_predicted], predicted_rounded[correctly_predicted], col = "green")
+
+#Factor analysis
+sel_data<-na.omit(data[,grep("taskl approach l avoid",colnames(data))])
+summary(sel_data)
+# determine the # of factors using eigen values and scree plot
+fa(stress_data, nfactors = 4, rotate = "varimax")
+
+
+factanal(stress_data, factors=1)
+
+
+
+
+## Load Libraries
+library(lavaan)
+library(lavaanPlot)
+library(dplyr) 
+library(tidyr)
+library(knitr)
+library(mvnormalTest)
+
+model <- '
+  # Define latent variables
+    Stress =~ Q1 + Q2 + Q3 + Q4 + Q5 + Q6 + Q7 + socialize
+    Nstress =~  N1 + N2 + N3 + N4 + N5 + N6 + N7 + socialize
+    #Socialize =~ socialize
+
+  # Specify relationships
+    Stress ~ Nstress
+    #Stress ~ Socialize
+'
+
+# Create the sem model
+sem_model <- sem(model, data = data_no_outliers)
+summary(sem_model)
+#fit<-sem(model , data)
+## sem function syntax
+
+lavaanPlot(model = sem_model, coefs = TRUE, stand = TRUE, sig = 0.05)
+
+library(semPlot)
+
+semPaths(sem_model, whatLabels="est,std", layout="tree2", edge.label.cex=1)
+
+
